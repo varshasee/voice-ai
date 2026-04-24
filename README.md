@@ -1,110 +1,160 @@
-# LiveKit Vobiz Outbound Agent 📞
+# AI Voice Agent – Divyasree "Whispers of the Wind"
 
-A production-ready voice agent capable of making outbound calls using **LiveKit**, **Deepgram**, and **Groq (Llama 3.3)**.  
-Designed for reliability, speed, and ease of deployment.
+## Overview
 
-## 🚀 Features
-- **Ultra-Fast LLM**: Uses **Groq** running `llama-3.3-70b-versatile` for near-instant responses.
-- **High-Quality Audio**: Uses **Deepgram** for both Speech-to-Text (STT) and Text-to-Speech (TTS).
-- **SIP Trunking**: Integrated with **Vobiz** for PSTN connectivity.
-- **Robust Configuration**: Centralized `config.py` for easy customization of prompts, models, and voices.
+This project is an outbound AI voice agent designed to qualify potential buyers for Divyasree Developers’ premium villa plot project, *Whispers of the Wind (WOW)*.
+
+The agent conducts a 2–3 minute conversational call to filter high-quality leads before passing them to a sales team.
 
 ---
 
-## 🛠️ Setup & Installation
+## Assignment Objective
 
-### 1. Prerequisites
-- Python 3.10+ (Recommended: 3.10.13)
-- A [LiveKit Cloud](https://cloud.livekit.io/) account
-- A [Deepgram](https://deepgram.com/) API Key
-- A [Groq](https://groq.com/) API Key
-- A SIP Provider (e.g., Vobiz)
+The goal was to design a voice agent that:
 
-### 2. Clone & Install
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd LiveKit-Vobiz-Outbound-main
-
-# Create a virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### 3. Configure Environment
-Copy the example environment file and fill in your credentials:
-```bash
-cp .env.example .env
-nano .env  # Or open in your editor
-```
-**Required Variables:**
-- `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_SECRET`
-- `DEEPGRAM_API_KEY`
-- `GROQ_API_KEY`
-- `VOBIZ_SIP_*` variables (for outbound calls)
+- Engages users in a natural conversation
+- Qualifies leads across 4 key checkpoints
+- Handles objections and edge cases
+- Maintains a premium, non-intrusive tone
+- Works across English and Hinglish conversations
 
 ---
 
-## 🏃‍♂️ Usage
+## Project Context
 
-### 1. Start the Agent
-This runs the agent process which listens for room connections.
-```bash
-python agent.py start
-```
-
-### 2. Make an Outbound Call
-In a **new terminal window** (ensure `venv` is active), run:
-```bash
-python make_call.py --to +91XXXXXXXXXX
-```
-*Note: The number must include the country code (e.g., +1 or +91).*
+- **Project:** Whispers of the Wind (WOW)
+- **Location:** Nandi Valley (near Nandi Hills, North Bengaluru)
+- **Product:** Premium villa plots (1200–3199 sq.ft.)
+- **USP:**
+  - 74% open spaces
+  - 20,000 sq.ft. clubhouse
+  - Eco-parks and scenic hill views
+- **Pricing:** ₹92.4 lakh – ₹2.46 Cr
+- **Target Audience:** HNIs, CXOs, NRIs
+- **Possession:** December 2029
 
 ---
 
-## 🔧 Troubleshooting Guide
+## Conversation Architecture
 
-### ❌ Error: `model_decommissioned` (Groq/Llama)
-**Cause:** The configured LLM model is no longer supported by Groq.  
-**Fix:**
-1. Open `config.py`.
-2. Update `GROQ_MODEL` to a supported model (e.g., `llama-3.3-70b-versatile` or `llama-3.1-8b-instant`).
-3. **Restart `agent.py`** to apply changes.
+The agent follows a structured conversational flow:
 
-### ❌ Error: `404 Not Found` (SIP Trunk)
-**Cause:** The `SIP_TRUNK_ID` in `.env` is incorrect or doesn't exist in your LiveKit project.  
-**Fix:**
-1. Run `python list_trunks.py` to see available trunks.
-2. If none exist, run `python create_trunk.py` to create one.
-3. Update `.env` with the correct ID.
-
-### ❌ Error: `Address already in use` (Port 8081)
-**Cause:** Another instance of `agent.py` is already running.  
-**Fix:**
-1. Find the process: `lsof -i :8081`
-2. Kill it: `kill -9 <PID>` or `pkill -f "python agent.py"`
-
-### ❌ Error: `No module named 'certifi'` or other imports
-**Cause:** Dependencies are missing.  
-**Fix:**
-1. Ensure your virtual environment is active (`source venv/bin/activate`).
-2. Run `pip install -r requirements.txt`.
-
-### ❌ Call Connects but No Audio
-**Cause:** TTS (Text-to-Speech) failure or WebSocket issues.  
-**Fix:**
-1. Check terminal logs for `APIStatusError`.
-2. If using OpenAI TTS, ensure you have OpenAI credits.
-3. Recommended: Switch to Deepgram TTS (set `TTS_PROVIDER=deepgram` in `.env`).
+### 1. Introduction
+- Introduces itself as a Divyasree consultant
+- Mentions project + location
+- Asks for permission to continue
 
 ---
 
-## 📂 Project Structure
-- `agent.py`: Main application logic.
-- `config.py`: Central configuration for prompts, models, and constants.
-- `make_call.py`: Script to initiate outbound calls.
-- `create_trunk.py` / `setup_trunk.py`: Utilities for SIP trunk management.
-# LIvekitAIVoice
+### 2. Qualification (4 Checkpoints)
+
+- **Intent:** Self-use vs investment  
+- **Geography:** Comfort with Nandi Hills / Devanahalli  
+- **Budget:** Fit for ₹92.4 lakh+  
+- **Timeline:** Comfort with 2029 delivery  
+
+---
+
+### 3. Pitch
+
+Aspirational positioning:
+- Private valley lifestyle
+- Nature + community
+- Investment upside
+
+---
+
+### 4. CTA
+
+Requests a follow-up call with a property expert from the team.
+
+---
+
+## Key Features
+
+- Natural conversational tone (premium, non-intrusive)
+- Multilingual handling (English + Hinglish)
+- Short, human-like responses (no long monologues)
+- Smart flow control (does not repeat questions)
+- Objection handling:
+  - Budget mismatch
+  - Location concerns
+  - Busy / uninterested users
+- Indian voice synthesis using Sarvam AI
+
+---
+
+## Tech Stack
+
+- **LiveKit** – Voice infrastructure  
+- **Groq (LLaMA 3)** – LLM  
+- **Deepgram** – Speech-to-Text  
+- **Sarvam AI** – Text-to-Speech (Indian voice)
+
+## System Architecture
+
+User Speech  
+→ Deepgram (STT)  
+→ Groq (LLM)  
+→ Sarvam (TTS)  
+→ Voice Output  
+
+---
+
+## Prompting Strategy
+
+The system uses a structured prompt to:
+
+- Maintain conversational flow
+- Avoid hallucinations
+- Ensure short, natural responses
+- Control tone (premium, not salesy)
+
+## Pronunciation Handling
+
+Custom phonetic guidance was included for:
+
+- Divyasree → Div-yaa-shree  
+- Nandi → Nun-dhee  
+- Lakh → Lak  
+- Crore → Krohr  
+
+Numbers are spoken naturally (e.g., “ninety two lakh”).
+
+---
+
+## Engineering Challenges & Solutions
+
+### LLM Constraints
+- **Challenge:** Free-tier Groq limits + weaker smaller models  
+- **Solution:** Optimized prompt length and reduced temperature for stability  
+
+---
+
+### Voice Naturalness
+- **Challenge:** Robotic / non-Indian tone  
+- **Solution:** Tuned Sarvam TTS + Hinglish conversational prompts  
+
+---
+
+### Prompt Size vs Latency
+- **Challenge:** Large prompts slowed inference  
+- **Solution:** Used compact production prompt + detailed design prompt  
+
+---
+
+### Audio Testing Issues
+- **Challenge:** Browser (Playground) audio inconsistencies  
+- **Solution:** Validated using real outbound calls  
+
+---
+
+### Hallucination Control
+- **Challenge:** LLM generating incorrect details  
+- **Solution:** Strict prompt constraints + fallback to human expert  
+
+---
+
+## Note
+
+The system is optimized for real-time performance while maintaining conversational quality and lead qualification accuracy.
